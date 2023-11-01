@@ -1,5 +1,6 @@
 "use client";
 import axios from "axios";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const Page = () => {
@@ -28,6 +29,11 @@ const Page = () => {
     fetchSearchPosts();
   }, []);
 
+  const handleClear = () => {
+    setSearchQuery("");
+    setPosts([]);
+  };
+
   return (
     <div className="container p-[30px] mx-auto">
       <form onSubmit={handleSubmit}>
@@ -38,12 +44,20 @@ const Page = () => {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
-        <button
-          type="submit"
-          className="w-full bg-[#333333] text-white py-2 rounded-md mt-5 hover:bg-white hover:text-[#333333] hover:transition-[0.3s] transition-[0.3s] border-2"
-        >
-          Search
-        </button>
+        <div className="flex justify-between items-center">
+          <button
+            type="submit"
+            className="w-full bg-[#333333] text-white py-2 rounded-md  hover:bg-white hover:text-[#333333] hover:transition-[0.3s] transition-[0.3s] border-2"
+          >
+            Search
+          </button>
+          <button
+            onClick={handleClear}
+            className="px-[1.4rem] py-[0.5rem] mx-[4.5rem] text-white my-5 bg-[#333333] border-2 text-800 hover:bg-white hover:border-2 hover:text-black transition-[0.3s] hover:transition-[0.3s]"
+          >
+            Clear
+          </button>
+        </div>
       </form>
       <div className="grid grid-cols-3 gap-[5rem]">
         {posts.map((ps) => (
@@ -57,11 +71,11 @@ const Page = () => {
               alt="Error"
             />
             <h1 className="mx-[3.4rem] text-[1.5rem]">{ps.login}</h1>
-            {/* <Link href="/"> */}
-            <button className="px-[1.4rem] py-[0.5rem] mx-[4.5rem] text-white my-5 bg-[#333333] border-2 text-800 hover:bg-white hover:border-2 hover:text-black transition-[0.3s] hover:transition-[0.3s]">
-              More
-            </button>
-            {/* </Link> */}
+            <Link href={`/${ps.login}`}>
+              <button className="px-[1.4rem] py-[0.5rem] mx-[4.5rem] text-white my-5 bg-[#333333] border-2 text-800 hover:bg-white hover:border-2 hover:text-black transition-[0.3s] hover:transition-[0.3s]">
+                More
+              </button>
+            </Link>
           </div>
         ))}
       </div>
